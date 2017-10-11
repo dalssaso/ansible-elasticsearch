@@ -152,7 +152,7 @@
   when: manage_native_roles
 
 - name: WARNING
-- debug:
+  debug:
     msg: "WARNING: YOU CANNOT CHANGE RESERVED ROLES. THE FOLLOWING WILL BE IGNORED: {{roles_to_ignore}}"
   when: manage_native_roles and roles_to_ignore | length > 0
 
