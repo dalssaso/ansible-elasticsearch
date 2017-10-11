@@ -46,10 +46,14 @@
 - name: Wait for elasticsearch to startup
   wait_for: host={{es_api_host}} port={{es_api_port}} delay=5 connect_timeout=1
   when: es_restarted is defined and es_restarted.changed and es_start_service
+  tags:
+    - skip_ansible_lint
 
-- set_fact: manage_native_realm=false
+- name: set needed fact
+  set_fact: manage_native_realm=false
 
-- set_fact: manage_native_realm=true
+- name: set needed fact
+  set_fact: manage_native_realm=true
   when: es_start_service and (es_enable_xpack and '"security" in es_xpack_features') and ((es_users is defined and es_users.native is defined) or (es_roles is defined and es_roles.native is defined))
 
 # If playbook runs too fast, Native commands could fail as the Native Realm is not yet up

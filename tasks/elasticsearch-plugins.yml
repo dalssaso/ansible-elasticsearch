@@ -5,6 +5,8 @@
 - name: set needed fact
   set_fact: es_plugins_reinstall=true
   when: (((debian_elasticsearch_install_from_repo is defined and debian_elasticsearch_install_from_repo.changed) or (redhat_elasticsearch_install_from_repo is defined and redhat_elasticsearch_install_from_repo.changed)) or (elasticsearch_install_from_package is defined and elasticsearch_install_from_package.changed)) or es_plugins is not defined or es_plugins is none
+  tags:
+    - skip_ansible_lint
 
 - name: set needed fact
   set_fact: list_command=""
@@ -12,6 +14,8 @@
 - name: set needed fact
   set_fact: list_command="| grep -vE 'x-pack'"
   when: not es_plugins_reinstall
+  tags:
+    - skip_ansible_lint
 
 #List currently installed plugins. We have to list the directories as the list commmand fails if the ES version is different than the plugin version.
 - name: Check installed elasticsearch plugins
@@ -57,6 +61,8 @@
   environment:
     CONF_DIR: "{{ conf_dir }}"
     ES_INCLUDE: "{{ instance_default_file }}"
+  tags:
+    - skip_ansible_lint
 
 - name: Install elasticsearch plugins
   become: yes
